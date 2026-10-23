@@ -1,3 +1,30 @@
 class StringConst {
   static const appTitle = 'Smart Home';
+  static const greeting = 'Hello Design Monks  👋';
+  static const welcomeBack = 'Welcome back again!';
+  static const allDevices = 'All Devices';
+  static const add = '+ Add';
+  static const livingRoom = 'Living Room';
+  static const kitchen = 'Kitchen';
+  static const bathroom = 'Bathroom';
+  static const bedroom = 'Bedroom';
+  static const lastEdit = 'Last Edit';
+  static const devicesConnected = 'Devices Connected';
+  static const temperature = 'Temperature';
+  static const humidity = 'Humidity';
+  static const airConditions = 'Air Conditions';
+  static const bedroomAr = 'Bedroom AR';
+  static const selectMood = 'Select Mood';
+  static const addTimer = 'Add Timer';
+  static const roomTemperature = 'ROOM\nTEMPERATURE';
+  static const cool = 'Cool';
+  static const dry = 'Dry';
+  static const heat = 'Heat';
+  static const warm = 'Warm';
+  static const lamp = 'Lamp';
+  static const homepodMini = 'Homepod Mini';
+  static const smartLight = 'Smart Light';
+  static const vacuumCleaner = 'Vacuum Cleaner';
+  static const devices = 'Devices';
+  static const hrs = 'hrs';
 }

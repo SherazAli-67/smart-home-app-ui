@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_home_app/constants/string_const.dart';
+import 'package:smart_home_app/core/app_colors.dart';
 import 'package:smart_home_app/routing/router.dart';
 
 void main() {
@@ -9,14 +10,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: StringConst.appTitle,
-      theme: ThemeData(
-        brightness: .light
-      ),
+      theme: ThemeData(brightness: .light, fontFamily: 'Urbanist', colorSchemeSeed: AppColors.primary),
       routerConfig: router,
       builder: (ctx, child) => child!,
     );
