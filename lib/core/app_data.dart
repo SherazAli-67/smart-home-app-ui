@@ -32,7 +32,7 @@ class AppData {
 
   static const arHotspots = [
     ArHotspotModel(label: StringConst.airConditions, icon: AssetRes.icAirCondition, top: 163, left: 36, labelTop: 159, labelLeft: 166, labelOnRight: true),
-    ArHotspotModel(label: StringConst.lamp, icon: AssetRes.icLamp, top: 321, left: 151, labelTop: 414, labelLeft: 72, labelOnRight: false),
+    ArHotspotModel(label: StringConst.lamp, icon: AssetRes.icLamp, top: 321, left: 151, labelTop: 368, labelLeft: 60, labelOnRight: false),
   ];
 
   static const primaryGradientColors = [AppColors.primary, AppColors.primaryLight];

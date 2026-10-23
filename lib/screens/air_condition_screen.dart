@@ -15,7 +15,6 @@ import 'package:smart_home_app/providers/air_condition_provider.dart';
 class AirConditionScreen extends StatelessWidget {
   const AirConditionScreen({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

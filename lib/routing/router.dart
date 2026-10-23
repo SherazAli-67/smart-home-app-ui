@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_home_app/providers/air_condition_provider.dart';
+import 'package:smart_home_app/providers/bedroom_ar_provider.dart';
 import 'package:smart_home_app/providers/home_provider.dart';
 import 'package:smart_home_app/screens/air_condition_screen.dart';
 import 'package:smart_home_app/screens/bedroom_ar_screen.dart';
@@ -17,7 +18,10 @@ GoRouter router = GoRouter(
       path: NamedRoutes.airCondition.routeName,
       builder: (ctx, state) => ChangeNotifierProvider(create: (_) => AirConditionProvider(), child: const AirConditionScreen()),
     ),
-    GoRoute(path: NamedRoutes.bedroomAr.routeName, builder: (ctx, state) => const BedroomArScreen()),
+    GoRoute(
+      path: NamedRoutes.bedroomAr.routeName,
+      builder: (ctx, state) => ChangeNotifierProvider(create: (_) => BedroomArProvider(), child: const BedroomArScreen()),
+    ),
   ],
 );
 

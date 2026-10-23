@@ -26,4 +26,5 @@ class AssetRes {
   static const icLamp = '${_iconsPath}ic_lamp.svg';
   static const icBed = '${_iconsPath}ic_bed.svg';
   static const onOffToggle = '${_iconsPath}on_off_toggle.svg';
+  static const icLeftArLine = '${_iconsPath}left_side_line.svg';
 }
