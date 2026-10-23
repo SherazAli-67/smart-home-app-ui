@@ -1,9 +1,12 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:smart_home_app/constants/number_constant.dart';
 import 'package:smart_home_app/core/app_data.dart';
 import 'package:smart_home_app/core/models/device_model.dart';
 
 class HomeProvider extends ChangeNotifier {
   List<DeviceModel> devices = List.from(AppData.devices);
+
+  final roomPageController = PageController(viewportFraction: NumberConstant.roomCarouselViewportFraction, initialPage: 1);
 
   List<DeviceModel> get gridDevices => devices.where((d) => d.layout == .grid).toList();
 
@@ -19,4 +22,11 @@ class HomeProvider extends ChangeNotifier {
     if (index == -1) return;
     toggleDevice(index);
   }
+
+  @override
+  void dispose() {
+    roomPageController.dispose();
+    super.dispose();
+  }
 }
+
