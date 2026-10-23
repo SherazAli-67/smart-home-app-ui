@@ -4,6 +4,7 @@ class NumberConstant {
   static const roomCardWidth = 270.0;
   static const roomCardHeight = 310.0;
   static const roomCardRadius = 40.0;
+  static const airConditionImg = 345.0;
   static const roomInfoCardRadius = 28.0;
   static const roomCarouselViewportFraction = 0.72;
   static const deviceCardRadius = 20.0;

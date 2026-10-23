@@ -17,6 +17,7 @@ class AppColors {
   static const arOverlay = Color(0x33246BFD);
   static const shadowLight = Color(0x0A000000);
   static const shadowPrimary = Color(0x33246BFD);
+  static const borderColor = Color(0xffE7E7E7);
   static const primaryGradient = LinearGradient(
     begin: Alignment.bottomLeft,
     end: Alignment.topRight,

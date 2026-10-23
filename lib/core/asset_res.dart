@@ -9,6 +9,7 @@ class AssetRes {
   static const homepodMini = '${_imagesPath}homepod_mini.png';
   static const smartLight = '${_imagesPath}smart_light.png';
   static const vacuumCleaner = '${_imagesPath}vacuum_cleaner.png';
+  static const airConditionImg = '${_imagesPath}air_condition_img.png';
 
   static const icNotification = '${_iconsPath}ic_notification.svg';
   static const icBack = '${_iconsPath}ic_back.svg';
