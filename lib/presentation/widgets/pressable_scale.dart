@@ -21,7 +21,7 @@ class _PressableScaleState extends State<PressableScale> {
   bool _pressed = false;
 
   void _setPressed(bool value) {
-    if (_pressed == value || widget.onTap == null) return;
+    if (_pressed == value) return;
     setState(() => _pressed = value);
   }
 
