@@ -32,7 +32,13 @@ class HomeScreen extends StatelessWidget {
               child: Container(
                 height: 155,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(begin: .topCenter, end: .bottomCenter, colors: [AppColors.topGlow.withValues(alpha: 0.35), AppColors.white.withValues(alpha: 0)]),
+                  /*gradient: LinearGradient(
+                      begin: .topCenter,
+                      end: .bottomCenter,
+                      colors: [
+                        AppColors.topGlow.withValues(alpha: 0.35),
+                        AppColors.white.withValues(alpha: 0)
+                      ]),*/
                 ),
               ),
             ),
@@ -65,12 +71,12 @@ class HomeScreen extends StatelessWidget {
             spacing: 0,
             crossAxisAlignment: .start,
             children: [
-              Text(StringConst.greeting, style: AppTextStyles.greeting),
-              Text(StringConst.welcomeBack, style: AppTextStyles.greetingSubtitle),
+              //greeting, greeting,
+              //welcomeBack, greetingSubtitle
             ],
           ),
         ),
-        CircularIconButton(icon: AssetRes.icNotification, showBadge: true),
+        // CircularIconButton(icon: AssetRes.icNotification, showBadge: true),
       ],
     );
   }
@@ -96,20 +102,50 @@ class HomeScreen extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: .circular(NumberConstant.roomCardRadius),
-          boxShadow: [BoxShadow(color: AppColors.shadowPrimary.withValues(alpha: 0.15), blurRadius: 41, offset: Offset(0, 5))],
+          // borderRadius: .circular(NumberConstant.roomCardRadius),
+          // boxShadow: [BoxShadow(color: AppColors.shadowPrimary.withValues(alpha: 0.15), blurRadius: 41, offset: Offset(0, 5))],
         ),
         child: ClipRRect(
           borderRadius: .circular(NumberConstant.roomCardRadius),
           child: Stack(
             fit: .expand,
             children: [
-              Image.asset(room.image, fit: .cover),
+              //room.image, .cover
               Positioned(
                 left: 11,
                 right: 11,
                 bottom: 15,
-                child: _buildRoomInfoOverlay(room),
+                child: Container(
+                  padding: .fromLTRB(18, 16, 18, 16),
+                  decoration: BoxDecoration(
+                    // gradient: AppColors.primaryGradient,
+                    // borderRadius: .circular(NumberConstant.roomInfoCardRadius),
+                    // border: .all(color: AppColors.primary),
+                    // boxShadow: [BoxShadow(color: AppColors.shadowPrimary, blurRadius: 32, offset: Offset(4, 12))],
+                  ),
+                  child: Column(
+                    spacing: 12,
+                    crossAxisAlignment: .start,
+                    children: [
+                      Column(
+                        spacing: 4,
+                        crossAxisAlignment: .start,
+                        children: [
+                          //room.name, roomCardTitle,
+                          //${room.deviceCount} ${StringConst.devicesConnected}, roomCardSubtitle
+                        ],
+                      ),
+                      // Divider(height: 1, thickness: 1, color: AppColors.white.withValues(alpha: 0.25)),
+                      Row(
+                        spacing: 8,
+                        children: [
+                          Expanded(child: _buildRoomStat(icon: AssetRes.icTemperature, label: StringConst.temperature, value: '${room.temperature.toInt()}°C')),
+                          Expanded(child: _buildRoomStat(icon: AssetRes.icHumidity, label: StringConst.humidity, value: '${room.humidity.toInt()}%')),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -118,39 +154,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRoomInfoOverlay(RoomModel room) {
-    return Container(
-      padding: .fromLTRB(18, 16, 18, 16),
-      decoration: BoxDecoration(
-        gradient: AppColors.primaryGradient,
-        borderRadius: .circular(NumberConstant.roomInfoCardRadius),
-        border: .all(color: AppColors.primary),
-        boxShadow: [BoxShadow(color: AppColors.shadowPrimary, blurRadius: 32, offset: Offset(4, 12))],
-      ),
-      child: Column(
-        spacing: 12,
-        crossAxisAlignment: .start,
-        children: [
-          Column(
-            spacing: 4,
-            crossAxisAlignment: .start,
-            children: [
-              Text(room.name, style: AppTextStyles.roomCardTitle),
-              Text('${room.deviceCount} ${StringConst.devicesConnected}', style: AppTextStyles.roomCardSubtitle),
-            ],
-          ),
-          Divider(height: 1, thickness: 1, color: AppColors.white.withValues(alpha: 0.25)),
-          Row(
-            spacing: 8,
-            children: [
-              Expanded(child: _buildRoomStat(icon: AssetRes.icTemperature, label: StringConst.temperature, value: '${room.temperature.toInt()}°C')),
-              Expanded(child: _buildRoomStat(icon: AssetRes.icHumidity, label: StringConst.humidity, value: '${room.humidity.toInt()}%')),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+
 
   Widget _buildRoomStat({required String icon, required String label, required String value}) {
     return Row(
@@ -158,19 +162,20 @@ class HomeScreen extends StatelessWidget {
       children: [
         DecoratedBox(
           decoration: BoxDecoration(
-            color: AppColors.white,
-            shape: .circle,
-            boxShadow: [BoxShadow(color: AppColors.white.withValues(alpha: 0.1), blurRadius: 9, offset: Offset(0, 4))],
+            // color: AppColors.white,
+            // shape: .circle,
+            // boxShadow: [BoxShadow(color: AppColors.white.withValues(alpha: 0.1), blurRadius: 9, offset: Offset(0, 4))],
           ),
-          child: SvgPicture.asset(icon, fit: .cover,)
+          //icon, fit.cover
+          child: const SizedBox()
         ),
         Expanded(
           child: Column(
             spacing: 2,
             crossAxisAlignment: .start,
             children: [
-              Text(label, style: AppTextStyles.roomStatLabel, maxLines: 1,),
-              Text(value, style: AppTextStyles.roomStatValue),
+              //label, roomStateLabel, maxLines 1
+              //value, roomStateValue
             ],
           ),
         ),
@@ -187,12 +192,17 @@ class HomeScreen extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: Text(StringConst.allDevices, style: AppTextStyles.sectionTitle)),
+            //allDevices, sectionTitle
+            Expanded(child: const SizedBox()),
             GestureDetector(
               onTap: () => context.push(NamedRoutes.bedroomAr.routeName),
               child: DecoratedBox(
-                decoration: BoxDecoration(color: AppColors.primarySoft, borderRadius: .circular(10)),
-                child: Padding(padding: .symmetric(horizontal: 8, vertical: 6), child: Text(StringConst.add, style: AppTextStyles.addButton)),
+                //primarySoft
+                decoration: BoxDecoration(color: Colors.white, borderRadius: .circular(10)),
+                child: Padding(
+                    padding: .symmetric(horizontal: 8, vertical: 6),
+                    //add, addButton
+                    child: const SizedBox()),
               ),
             ),
           ],
@@ -211,7 +221,8 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildGridDeviceCard(BuildContext context, DeviceModel device) {
     return DecoratedBox(
-      decoration: BoxDecoration(color: AppColors.cardBackground, borderRadius: .circular(NumberConstant.deviceCardRadius)),
+      //cardBackground
+      decoration: BoxDecoration(color: Colors.transparent , borderRadius: .circular(NumberConstant.deviceCardRadius)),
       child: Padding(
         padding: .all(NumberConstant.deviceCardPadding),
         child: Column(
@@ -220,17 +231,18 @@ class HomeScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                _buildDeviceIcon(device.image),
+                // _buildDeviceIcon(device.image),
                 Spacer(),
-                DeviceToggle(value: device.isOn, onChanged: (_) => context.read<HomeProvider>().toggleDeviceByName(device.name)),
+
+                // DeviceToggle(value: device.isOn, onChanged: (_) => context.read<HomeProvider>().toggleDeviceByName(device.name)),
               ],
             ),
             Column(
               spacing: 6,
               crossAxisAlignment: .start,
               children: [
-                Text(device.name, style: AppTextStyles.deviceName),
-                _buildDeviceBadge(device),
+                //device.name, deviceName
+                // _buildDeviceBadge(device),
               ],
             ),
           ],
@@ -241,24 +253,26 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildWideDeviceCard(BuildContext context, DeviceModel device) {
     return DecoratedBox(
-      decoration: BoxDecoration(color: AppColors.cardBackground, borderRadius: .circular(NumberConstant.deviceCardRadius)),
+      //cardBackground
+      decoration: BoxDecoration(color: Colors.transparent, borderRadius: .circular(NumberConstant.deviceCardRadius)),
       child: Padding(
         padding: .all(NumberConstant.deviceCardPadding),
         child: Row(
           spacing: 17,
           children: [
-            _buildDeviceIcon(device.image),
+            // _buildDeviceIcon(device.image),
             Expanded(
               child: Column(
                 spacing: 6,
                 crossAxisAlignment: .start,
                 children: [
-                  Text(device.name, style: AppTextStyles.deviceName),
-                  _buildDeviceBadge(device),
+                  //device.name, deviceName,
+
+                  // _buildDeviceBadge(device),
                 ],
               ),
             ),
-            DeviceToggle(value: device.isOn, onChanged: (_) => context.read<HomeProvider>().toggleDeviceByName(device.name)),
+            // DeviceToggle(value: device.isOn, onChanged: (_) => context.read<HomeProvider>().toggleDeviceByName(device.name)),
           ],
         ),
       ),
