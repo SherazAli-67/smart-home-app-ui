@@ -32,4 +32,6 @@ class NumberConstant {
   static const animStaggerStep = Duration(milliseconds: 60);
   static const roomCarouselFocusedScale = 1.0;
   static const roomCarouselNeighborScale = 0.94;
+  static const roomCarouselParallax = 48.0;
+  static const roomCarouselImageScale = 1.2;
 }

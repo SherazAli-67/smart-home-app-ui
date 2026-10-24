@@ -103,29 +103,39 @@ class HomeScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return AnimatedBuilder(
             animation: pageController,
-            builder: (context, child) {
+            builder: (context, _) {
               final page = pageController.hasClients
                   ? (pageController.page ?? pageController.initialPage.toDouble())
                   : pageController.initialPage.toDouble();
-              final distance = (page - index).abs().clamp(0.0, 1.0);
+              final pageOffset = page - index;
+              final distance = pageOffset.abs().clamp(0.0, 1.0);
               final scale = NumberConstant.roomCarouselFocusedScale -
                   (NumberConstant.roomCarouselFocusedScale - NumberConstant.roomCarouselNeighborScale) *
                       distance;
-              return Transform.scale(scale: scale, child: child);
+              return Transform.scale(
+                scale: scale,
+                child: Padding(
+                  padding: .symmetric(horizontal: 8),
+                  child: _buildRoomCard(context, AppData.rooms[index], pageOffset),
+                ),
+              );
             },
-            child: Padding(
-              padding: .symmetric(horizontal: 8),
-              child: _buildRoomCard(context, AppData.rooms[index]),
-            ),
           );
         },
       ),
     );
   }
 
-  Widget _buildRoomCard(BuildContext context, RoomModel room) {
+  Widget _buildRoomCard(BuildContext context, RoomModel room, double pageOffset) {
     final isLivingRoom = room.name == StringConst.livingRoom;
-    final image = Image.asset(room.image, fit: .cover);
+    final parallaxX = -pageOffset * NumberConstant.roomCarouselParallax;
+    final image = Transform.translate(
+      offset: Offset(parallaxX, 0),
+      child: Transform.scale(
+        scale: NumberConstant.roomCarouselImageScale,
+        child: Image.asset(room.image, fit: .cover, width: double.infinity, height: double.infinity),
+      ),
+    );
 
     return GestureDetector(
       onTap: () {
