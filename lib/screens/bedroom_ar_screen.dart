@@ -119,7 +119,30 @@ class BedroomArScreen extends StatelessWidget {
       crossAxisAlignment: .end,
       children: [
         Expanded(child: _buildRoomSelector(provider)),
-        GestureDetector(onTap: () {}, child: SvgPicture.asset(AssetRes.icPlus)),
+        Container(
+          decoration: BoxDecoration(
+            shape: .circle,
+            color: Colors.white
+          ),
+          padding: .all(13),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    AppColors.primary,
+                    AppColors.primaryLight
+                  ],
+                stops: [
+                  0,
+                  1
+                ]
+              ),
+              shape: .circle
+            ),
+            padding: .all(15),
+            child: Icon(Icons.add_rounded, color: Colors.white,),
+          )
+        )
       ],
     );
   }
@@ -129,20 +152,27 @@ class BedroomArScreen extends StatelessWidget {
     final selected = provider.selectedRoomIndex;
     return Row(
       mainAxisAlignment: .center,
+      crossAxisAlignment: .end,
       spacing: 8,
       children: [
         if (selected > 0) ...[
           _buildSideRoomChip(rooms[selected - 1], onTap: provider.selectPreviousRoom),
           GestureDetector(
             onTap: provider.selectPreviousRoom,
-            child: Transform.flip(flipX: true, child: SvgPicture.asset(AssetRes.icChevron, colorFilter: .mode(AppColors.white, .srcIn))),
+            child: Padding(
+              padding: .only(bottom: 12),
+              child: Transform.flip(flipX: true, child: SvgPicture.asset(AssetRes.icChevron, colorFilter: .mode(AppColors.white, .srcIn))),
+            ),
           ),
         ],
         _buildActiveRoomSelector(rooms[selected]),
         if (selected < rooms.length - 1) ...[
           GestureDetector(
             onTap: provider.selectNextRoom,
-            child: SvgPicture.asset(AssetRes.icChevron, colorFilter: .mode(AppColors.white, .srcIn)),
+            child: Padding(
+              padding: .only(bottom: 12),
+              child: SvgPicture.asset(AssetRes.icChevron, colorFilter: .mode(AppColors.white, .srcIn)),
+            ),
           ),
           _buildSideRoomChip(rooms[selected + 1], onTap: provider.selectNextRoom),
         ],
@@ -151,28 +181,31 @@ class BedroomArScreen extends StatelessWidget {
   }
 
   Widget _buildActiveRoomSelector(String room) {
-    return Column(
-      spacing: 8,
-      mainAxisSize: .min,
-      children: [
-        DecoratedBox(
-          decoration: BoxDecoration(shape: .circle, border: .all(color: AppColors.white.withValues(alpha: 0.5), width: 2)),
-          child: Padding(
-            padding: .all(12),
+    return SizedBox(
+      width: NumberConstant.arUnionWidth,
+      height: NumberConstant.arUnionHeight,
+      child: Stack(
+        alignment: .center,
+        children: [
+          SvgPicture.asset(AssetRes.unionShape, width: NumberConstant.arUnionWidth, height: NumberConstant.arUnionHeight),
+          Positioned(
+            top: 13,
             child: DecoratedBox(
-              decoration: BoxDecoration(color: AppColors.overlayDark, shape: .circle),
+              decoration: BoxDecoration(shape: .circle, border: .all(color: AppColors.white.withValues(alpha: 0.6), width: 1.5)),
               child: Padding(
-                padding: .all(10),
+                padding: .all(13),
                 child: SvgPicture.asset(AssetRes.icBed, colorFilter: .mode(AppColors.white, .srcIn)),
               ),
             ),
           ),
-        ),
-        DecoratedBox(
-          decoration: BoxDecoration(color: AppColors.overlayDark, borderRadius: .circular(60)),
-          child: Padding(padding: .symmetric(horizontal: 24, vertical: 9), child: Text(room, style: AppTextStyles.arRoomLabel)),
-        ),
-      ],
+          Positioned(
+            bottom: 10,
+            left: 0,
+            right: 0,
+            child: Text(room, style: AppTextStyles.arRoomLabel, textAlign: .center),
+          ),
+        ],
+      ),
     );
   }
 
@@ -190,31 +223,4 @@ class BedroomArScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class _LeaderLinePainter extends CustomPainter {
-  final bool toRight;
-
-  _LeaderLinePainter({required this.toRight});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppColors.white.withValues(alpha: 0.85)
-      ..style = .stroke
-      ..strokeWidth = 1.5
-      ..strokeCap = .round;
-    final path = Path();
-    if (toRight) {
-      path.moveTo(0, size.height * 0.6);
-      path.quadraticBezierTo(size.width * 0.4, 0, size.width, size.height * 0.2);
-    } else {
-      path.moveTo(size.width, size.height * 0.2);
-      path.quadraticBezierTo(size.width * 0.6, 0, 0, size.height * 0.6);
-    }
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _LeaderLinePainter oldDelegate) => oldDelegate.toRight != toRight;
 }

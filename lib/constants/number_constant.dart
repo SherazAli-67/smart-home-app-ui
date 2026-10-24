@@ -23,4 +23,6 @@ class NumberConstant {
   static const arHotspotOuterSize = 110.0;
   static const arHotspotInnerSize = 42.0;
   static const arRoomSelectorSize = 60.0;
+  static const arUnionWidth = 114.0;
+  static const arUnionHeight = 132.0;
 }
