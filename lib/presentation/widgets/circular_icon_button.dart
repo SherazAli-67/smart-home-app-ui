@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smart_home_app/constants/number_constant.dart';
 import 'package:smart_home_app/core/app_colors.dart';
+import 'package:smart_home_app/presentation/widgets/pulse_ring.dart';
 
 class CircularIconButton extends StatelessWidget {
   final String icon;
@@ -40,13 +41,20 @@ class CircularIconButton extends StatelessWidget {
             Positioned(
               top: 3,
               right: 0,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: AppColors.primaryGradient,
-                  shape: .circle,
-                  boxShadow: [BoxShadow(color: AppColors.shadowPrimary, blurRadius: 6, offset: Offset(0, 4))],
+              child: PulseRing(
+                minScale: 0.88,
+                maxScale: 1.12,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: AppColors.primaryGradient,
+                    shape: .circle,
+                    boxShadow: [BoxShadow(color: AppColors.shadowPrimary, blurRadius: 6, offset: Offset(0, 4))],
+                  ),
+                  child: SizedBox(
+                    width: NumberConstant.notificationDotSize,
+                    height: NumberConstant.notificationDotSize,
+                  ),
                 ),
-                child: SizedBox(width: NumberConstant.notificationDotSize, height: NumberConstant.notificationDotSize),
               ),
             ),
         ],

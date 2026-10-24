@@ -1,6 +1,6 @@
 class StringConst {
   static const appTitle = 'Smart Home';
-  static const greeting = 'Hello Design Monks  👋';
+  static const greeting = 'Hello Sheraz Ali  👋';
   static const welcomeBack = 'Welcome back again!';
   static const allDevices = 'All Devices';
   static const add = '+ Add';

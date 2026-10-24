@@ -25,4 +25,11 @@ class NumberConstant {
   static const arRoomSelectorSize = 60.0;
   static const arUnionWidth = 114.0;
   static const arUnionHeight = 132.0;
+
+  static const animFast = Duration(milliseconds: 200);
+  static const animNormal = Duration(milliseconds: 300);
+  static const animPulse = Duration(milliseconds: 1200);
+  static const animStaggerStep = Duration(milliseconds: 60);
+  static const roomCarouselFocusedScale = 1.0;
+  static const roomCarouselNeighborScale = 0.94;
 }
