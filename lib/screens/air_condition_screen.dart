@@ -10,13 +10,18 @@ import 'package:smart_home_app/core/app_textstyles.dart';
 import 'package:smart_home_app/core/asset_res.dart';
 import 'package:smart_home_app/core/models/ac_mood_model.dart';
 import 'package:smart_home_app/presentation/widgets/circular_icon_button.dart';
+import 'package:smart_home_app/presentation/widgets/staggered_fade_slide.dart';
 import 'package:smart_home_app/providers/air_condition_provider.dart';
+import 'package:smart_home_app/screens/home_screen.dart';
 
 class AirConditionScreen extends StatelessWidget {
   const AirConditionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<AirConditionProvider>();
+    final isPowerOn = provider.isPowerOn;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Stack(
@@ -29,12 +34,14 @@ class AirConditionScreen extends StatelessWidget {
               child: Container(
                 height: 151,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(begin: .topCenter,
-                      end: .bottomCenter,
-                      colors: [
-                        AppColors.topGlow.withValues(alpha: 0.35),
-                        AppColors.white.withValues(alpha: 0)
-                      ]),
+                  gradient: LinearGradient(
+                    begin: .topCenter,
+                    end: .bottomCenter,
+                    colors: [
+                      AppColors.topGlow.withValues(alpha: 0.35),
+                      AppColors.white.withValues(alpha: 0),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -45,12 +52,37 @@ class AirConditionScreen extends StatelessWidget {
                 padding: .fromLTRB(NumberConstant.horizontalPadding, 8, NumberConstant.horizontalPadding, 24),
                 child: Column(
                   children: [
-                    _buildHeader(context),
-                    const SizedBox(height: 24,),
-                    _buildRoomTabs(context),
-                    const SizedBox(height: 24,),
-                    Image.asset(AssetRes.airConditionImg,fit: .cover,),
-                    _buildControlsCard(context),
+                    StaggeredFadeSlide(child: _buildHeader(context)),
+                    const SizedBox(height: 24),
+                    StaggeredFadeSlide(
+                      delay: NumberConstant.animStaggerStep,
+                      child: _buildRoomTabs(context),
+                    ),
+                    const SizedBox(height: 24),
+                    StaggeredFadeSlide(
+                      delay: NumberConstant.animStaggerStep * 2,
+                      child: AnimatedOpacity(
+                        duration: NumberConstant.animNormal,
+                        curve: Curves.easeOutCubic,
+                        opacity: isPowerOn ? 1 : 0.45,
+                        child: Hero(
+                          tag: HomeScreen.acHeroTag,
+                          child: Image.asset(AssetRes.airConditionImg, fit: .cover),
+                        ),
+                      ),
+                    ),
+                    StaggeredFadeSlide(
+                      delay: NumberConstant.animStaggerStep * 3,
+                      child: AnimatedOpacity(
+                        duration: NumberConstant.animNormal,
+                        curve: Curves.easeOutCubic,
+                        opacity: isPowerOn ? 1 : 0.45,
+                        child: IgnorePointer(
+                          ignoring: !isPowerOn,
+                          child: _buildControlsCard(context),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -66,7 +98,9 @@ class AirConditionScreen extends StatelessWidget {
     return Row(
       children: [
         CircularIconButton(icon: AssetRes.icBack, onTap: () => context.pop()),
-        Expanded(child: Text(StringConst.airConditions, style: AppTextStyles.screenTitle, textAlign: .center)),
+        Expanded(
+          child: Text(StringConst.airConditions, style: AppTextStyles.screenTitle, textAlign: .center),
+        ),
         CircularIconButton(
           icon: AssetRes.icPower,
           padding: .all(4),
@@ -87,17 +121,35 @@ class AirConditionScreen extends StatelessWidget {
           for (var i = 0; i < AppData.acRoomTabs.length; i++)
             GestureDetector(
               onTap: () => provider.selectRoom(i),
-              child: DecoratedBox(
+              child: AnimatedContainer(
+                duration: NumberConstant.animFast,
+                curve: Curves.easeOutCubic,
                 decoration: BoxDecoration(
                   gradient: i == provider.selectedRoomIndex ? AppColors.primaryGradient : null,
                   color: i == provider.selectedRoomIndex ? null : AppColors.white,
                   borderRadius: .circular(8),
                   border: i == provider.selectedRoomIndex ? null : Border.all(color: AppColors.borderColor),
-                  boxShadow: i == provider.selectedRoomIndex ? [BoxShadow(color: AppColors.shadowPrimary.withValues(alpha: 0.15), blurRadius: 17, offset: Offset(0, 4))] : null,
+                  boxShadow: i == provider.selectedRoomIndex
+                      ? [
+                          BoxShadow(
+                            color: AppColors.shadowPrimary.withValues(alpha: 0.15),
+                            blurRadius: 17,
+                            offset: Offset(0, 4),
+                          ),
+                        ]
+                      : null,
                 ),
-                child: Padding(
-                  padding: .symmetric(horizontal: i == provider.selectedRoomIndex ? 22 : 20, vertical: 7),
-                  child: Text(AppData.acRoomTabs[i], style: i == provider.selectedRoomIndex ? AppTextStyles.chipSelected : AppTextStyles.chipUnselected),
+                padding: .symmetric(
+                  horizontal: i == provider.selectedRoomIndex ? 22 : 20,
+                  vertical: 7,
+                ),
+                child: AnimatedDefaultTextStyle(
+                  duration: NumberConstant.animFast,
+                  curve: Curves.easeOutCubic,
+                  style: i == provider.selectedRoomIndex
+                      ? AppTextStyles.chipSelected
+                      : AppTextStyles.chipUnselected,
+                  child: Text(AppData.acRoomTabs[i]),
                 ),
               ),
             ),
@@ -106,10 +158,12 @@ class AirConditionScreen extends StatelessWidget {
     );
   }
 
-
   Widget _buildControlsCard(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(color: AppColors.cardBackground, borderRadius: .circular(NumberConstant.deviceCardRadius)),
+      decoration: BoxDecoration(
+        color: AppColors.cardBackground,
+        borderRadius: .circular(NumberConstant.deviceCardRadius),
+      ),
       child: Padding(
         padding: .symmetric(horizontal: 15, vertical: 19),
         child: Column(
@@ -135,32 +189,58 @@ class AirConditionScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: .spaceBetween,
           children: [
-            for (var i = 0; i < AppData.acMoods.length; i++) _buildMoodItem(context, AppData.acMoods[i], i == provider.selectedMoodIndex, () => provider.selectMood(i)),
+            for (var i = 0; i < AppData.acMoods.length; i++)
+              _buildMoodItem(
+                AppData.acMoods[i],
+                i == provider.selectedMoodIndex,
+                () => provider.selectMood(i),
+              ),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildMoodItem(BuildContext context, AcMoodModel mood, bool isSelected, VoidCallback onTap) {
+  Widget _buildMoodItem(AcMoodModel mood, bool isSelected, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
         spacing: 7,
         children: [
-          DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: isSelected ? AppColors.primaryGradient : null,
-              color: isSelected ? null : AppColors.white,
-              shape: .circle,
-              boxShadow: isSelected ? [BoxShadow(color: AppColors.shadowPrimary.withValues(alpha: 0.2), blurRadius: 10, offset: Offset(0, 4))] : null,
-            ),
-            child: Padding(
+          AnimatedScale(
+            scale: isSelected ? 1.08 : 1,
+            duration: NumberConstant.animFast,
+            curve: Curves.easeOutCubic,
+            child: AnimatedContainer(
+              duration: NumberConstant.animFast,
+              curve: Curves.easeOutCubic,
+              decoration: BoxDecoration(
+                gradient: isSelected ? AppColors.primaryGradient : null,
+                color: isSelected ? null : AppColors.white,
+                shape: .circle,
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: AppColors.shadowPrimary.withValues(alpha: 0.2),
+                          blurRadius: 10,
+                          offset: Offset(0, 4),
+                        ),
+                      ]
+                    : null,
+              ),
               padding: .all(18),
-              child: SvgPicture.asset(mood.icon, colorFilter: isSelected ? .mode(AppColors.white, .srcIn) : .mode(AppColors.gray, .srcIn)),
+              child: SvgPicture.asset(
+                mood.icon,
+                colorFilter: isSelected ? .mode(AppColors.white, .srcIn) : .mode(AppColors.gray, .srcIn),
+              ),
             ),
           ),
-          Text(mood.label, style: isSelected ? AppTextStyles.moodLabelSelected : AppTextStyles.moodLabel),
+          AnimatedDefaultTextStyle(
+            duration: NumberConstant.animFast,
+            curve: Curves.easeOutCubic,
+            style: isSelected ? AppTextStyles.moodLabelSelected : AppTextStyles.moodLabel,
+            child: Text(mood.label),
+          ),
         ],
       ),
     );
@@ -178,21 +258,31 @@ class AirConditionScreen extends StatelessWidget {
           children: [
             LayoutBuilder(
               builder: (context, constraints) {
-                final progress = ((provider.timerHours - NumberConstant.timerMin) / (NumberConstant.timerMax - NumberConstant.timerMin)).clamp(0.0, 1.0);
+                final progress = ((provider.timerHours - NumberConstant.timerMin) /
+                        (NumberConstant.timerMax - NumberConstant.timerMin))
+                    .clamp(0.0, 1.0);
                 final thumbX = progress * constraints.maxWidth;
                 return SizedBox(
                   height: 62,
                   child: Stack(
                     clipBehavior: .none,
                     children: [
-                      Positioned(
+                      AnimatedPositioned(
+                        duration: NumberConstant.animFast,
+                        curve: Curves.easeOutCubic,
                         left: (thumbX - 24).clamp(0, constraints.maxWidth - 48),
                         top: 0,
                         child: DecoratedBox(
-                          decoration: BoxDecoration(gradient: AppColors.primaryGradient, borderRadius: .circular(8)),
+                          decoration: BoxDecoration(
+                            gradient: AppColors.primaryGradient,
+                            borderRadius: .circular(8),
+                          ),
                           child: Padding(
                             padding: .symmetric(horizontal: 10, vertical: 6),
-                            child: Text('${provider.timerHours.toInt()} ${StringConst.hrs}', style: AppTextStyles.timerValue),
+                            child: Text(
+                              '${provider.timerHours.toInt()} ${StringConst.hrs}',
+                              style: AppTextStyles.timerValue,
+                            ),
                           ),
                         ),
                       ),
@@ -236,4 +326,3 @@ class AirConditionScreen extends StatelessWidget {
     );
   }
 }
-
